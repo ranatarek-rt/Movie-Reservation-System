@@ -14,7 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="movie")
+@Table(name="movie",uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"title", "release_year"})
+})
 public class Movie {
     @Id
     @Column(name = "id")
@@ -31,6 +33,12 @@ public class Movie {
     @CollectionTable(name = "movie_genres", joinColumns = @JoinColumn(name = "movie_id"))
     @Column(name = "genre")
     private List<String> genres;
+
+    @Column(name="num_of_seats")
+    private int numOfSeats;
+
+    @Column(name = "release_year")
+    private Integer releaseYear;
 
     @ElementCollection
     @CollectionTable(name = "movie_cast" , joinColumns = @JoinColumn(name = "movie_id"))

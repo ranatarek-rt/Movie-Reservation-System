@@ -1,6 +1,9 @@
 package com.ryuu.movieReservation.service;
 
-public interface MovieService {
+import com.ryuu.movieReservation.dto.MovieDto;
+import com.ryuu.movieReservation.dto.MovieRequestDto;
 
+public interface MovieService {
+    MovieDto createMovie(MovieRequestDto movieRequestDto);
 
 }

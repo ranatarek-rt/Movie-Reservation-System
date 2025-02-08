@@ -9,6 +9,7 @@ CREATE TABLE movie(
    `title` varchar(100),
    `description` TEXT,
    `poster` LONGBLOB,
+   `num_of_seats` int not null,
    PRIMARY KEY (id)
 );
 
