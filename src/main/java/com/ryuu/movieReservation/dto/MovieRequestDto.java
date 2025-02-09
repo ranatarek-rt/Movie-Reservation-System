@@ -3,6 +3,7 @@ package com.ryuu.movieReservation.dto;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.time.LocalDateTime;
@@ -47,6 +48,6 @@ public class MovieRequestDto {
     @NotEmpty(message = "At least one showtime is required")
     private List<LocalDateTime> showTimes;
 
-    @NotNull(message = "Poster must not be null")
-    private byte[] poster;
+    private MultipartFile poster;
+
 }

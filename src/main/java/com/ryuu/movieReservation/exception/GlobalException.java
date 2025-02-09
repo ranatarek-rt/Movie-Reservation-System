@@ -13,4 +13,10 @@ public class GlobalException {
     public ResponseEntity<ApiResponse> duplicatedMovieExceptionHandler(DuplicatedMovieEntryException ex){
         return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(MovieNotFoundException.class)
+    public ResponseEntity<ApiResponse> movieNotFoundExceptionHandler(MovieNotFoundException ex){
+        return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.CONFLICT);
+    }
+
 }

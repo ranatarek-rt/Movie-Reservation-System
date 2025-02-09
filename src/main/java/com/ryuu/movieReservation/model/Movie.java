@@ -55,9 +55,8 @@ public class Movie {
     @Column(name = "showtime")
     private List<LocalDateTime> showTimes;
 
-    //use longBlob for storing binary data
-    @Lob
-    @Column(name = "poster", columnDefinition = "LONGBLOB")
-    private byte[] poster;
+    @Column(name = "poster")
+    private String poster;
+
 
 }
