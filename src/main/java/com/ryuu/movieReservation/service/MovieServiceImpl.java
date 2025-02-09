@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -60,6 +61,20 @@ public class MovieServiceImpl implements MovieService{
         movie.setPoster("/images/" + fileName);
         movieRepo.save(movie);
         return "/images/" + fileName;
+    }
+
+    @Override
+    public MovieDto getMovieById(Long id) {
+        Movie movie =  movieRepo.findById(id)
+                .orElseThrow(()-> new MovieNotFoundException("there is no movie found with that id"));
+
+        return modelMapper.map(movie,MovieDto.class);
+    }
+
+    @Override
+    public List<Movie> getAllMovies() {
+
+        return movieRepo.findAll();
     }
 
 }

@@ -3,6 +3,7 @@ package com.ryuu.movieReservation.controller;
 
 import com.ryuu.movieReservation.dto.MovieDto;
 import com.ryuu.movieReservation.dto.MovieRequestDto;
+import com.ryuu.movieReservation.model.Movie;
 import com.ryuu.movieReservation.response.ApiResponse;
 import com.ryuu.movieReservation.service.MovieService;
 import jakarta.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @Controller
@@ -40,4 +42,15 @@ public class MovieController {
         return ResponseEntity.ok(new ApiResponse("Poster uploaded successfully", posterUrl));
     }
 
+    @GetMapping
+    public ResponseEntity<ApiResponse> getAllMovies(){
+        List<Movie> movies = movieService.getAllMovies();
+        return ResponseEntity.ok(new ApiResponse("All movies are fetched successfully ",movies));
+    }
+
+    @GetMapping("{movieId}")
+    public ResponseEntity<ApiResponse> getMovieById(@PathVariable Long movieId){
+        MovieDto movie = movieService.getMovieById(movieId);
+        return ResponseEntity.ok(new ApiResponse("the movie with id "+ movieId +" is fetched successfully",movie));
+    }
 }

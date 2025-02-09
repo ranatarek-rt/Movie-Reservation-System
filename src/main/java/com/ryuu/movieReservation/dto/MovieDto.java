@@ -21,6 +21,6 @@ public class MovieDto {
     private List<String> castList;
     private List<String> directors;
     private List<LocalDateTime> showTimes;
-    private byte[] poster;
+    private String poster;
 
 }
