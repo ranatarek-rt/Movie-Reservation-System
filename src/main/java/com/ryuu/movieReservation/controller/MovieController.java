@@ -3,7 +3,6 @@ package com.ryuu.movieReservation.controller;
 
 import com.ryuu.movieReservation.dto.MovieDto;
 import com.ryuu.movieReservation.dto.MovieRequestDto;
-import com.ryuu.movieReservation.model.Movie;
 import com.ryuu.movieReservation.response.ApiResponse;
 import com.ryuu.movieReservation.service.MovieService;
 import jakarta.validation.Valid;
@@ -44,7 +43,7 @@ public class MovieController {
 
     @GetMapping
     public ResponseEntity<ApiResponse> getAllMovies(){
-        List<Movie> movies = movieService.getAllMovies();
+        List<MovieDto> movies = movieService.getAllMovies();
         return ResponseEntity.ok(new ApiResponse("All movies are fetched successfully ",movies));
     }
 

@@ -72,9 +72,13 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public List<Movie> getAllMovies() {
+    public List<MovieDto> getAllMovies() {
 
-        return movieRepo.findAll();
+        List<Movie> movieList = movieRepo.findAll();
+        return  movieList
+                .stream()
+                .map((movie)->modelMapper.map(movie,MovieDto.class))
+                .toList();
     }
 
 }
