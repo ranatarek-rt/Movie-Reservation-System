@@ -3,6 +3,7 @@ package com.ryuu.movieReservation.controller;
 
 import com.ryuu.movieReservation.dto.MovieDto;
 import com.ryuu.movieReservation.dto.MovieRequestDto;
+import com.ryuu.movieReservation.dto.MovieUpdateDto;
 import com.ryuu.movieReservation.response.ApiResponse;
 import com.ryuu.movieReservation.service.MovieService;
 import jakarta.validation.Valid;
@@ -52,4 +53,17 @@ public class MovieController {
         MovieDto movie = movieService.getMovieById(movieId);
         return ResponseEntity.ok(new ApiResponse("the movie with id "+ movieId +" is fetched successfully",movie));
     }
+
+    @DeleteMapping("{movieId}")
+    public ResponseEntity<ApiResponse> deleteMovie(@PathVariable Long movieId){
+        movieService.deleteMovieById(movieId);
+        return ResponseEntity.ok(new ApiResponse("the movie is deleted successfully",null));
+    }
+
+    @PatchMapping("{movieId}/update")
+    public ResponseEntity<ApiResponse> updateMovieFields(@PathVariable Long movieId, @RequestBody MovieUpdateDto movieUpdateDto){
+        MovieDto updatedMovie = movieService.updateMovie(movieId,movieUpdateDto);
+        return ResponseEntity.ok(new ApiResponse("the movie is successfully updated",updatedMovie));
+    }
+
 }

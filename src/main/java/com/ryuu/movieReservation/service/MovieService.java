@@ -2,6 +2,7 @@ package com.ryuu.movieReservation.service;
 
 import com.ryuu.movieReservation.dto.MovieDto;
 import com.ryuu.movieReservation.dto.MovieRequestDto;
+import com.ryuu.movieReservation.dto.MovieUpdateDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -14,5 +15,7 @@ public interface MovieService {
 
     MovieDto getMovieById(Long id);
     List<MovieDto> getAllMovies();
+    void deleteMovieById(Long id);
+    MovieDto updateMovie(Long id, MovieUpdateDto movieUpdateDto);
 
 }
