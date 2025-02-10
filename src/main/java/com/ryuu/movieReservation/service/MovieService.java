@@ -18,4 +18,5 @@ public interface MovieService {
     void deleteMovieById(Long id);
     MovieDto updateMovie(Long id, MovieUpdateDto movieUpdateDto);
 
+    List<MovieDto> searchByGenre(String genre);
 }

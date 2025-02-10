@@ -66,4 +66,11 @@ public class MovieController {
         return ResponseEntity.ok(new ApiResponse("the movie is successfully updated",updatedMovie));
     }
 
+    @GetMapping("/search/{genre}")
+    public ResponseEntity<ApiResponse> searchByGenre(@PathVariable String genre){
+        List<MovieDto> movies = movieService.searchByGenre(genre);
+        return ResponseEntity.ok(new ApiResponse("fetched all movies under same genre",movies));
+    }
+
+
 }

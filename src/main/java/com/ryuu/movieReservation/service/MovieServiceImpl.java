@@ -147,4 +147,13 @@ public class MovieServiceImpl implements MovieService{
     }
 
 
+    @Override
+    public List<MovieDto> searchByGenre(String genre){
+        List<Movie> movies = movieRepo.findByGenresContaining(genre);
+        return  movies
+                .stream()
+                .map((movie)->modelMapper.map(movie,MovieDto.class))
+                .toList();
+    }
+
 }
