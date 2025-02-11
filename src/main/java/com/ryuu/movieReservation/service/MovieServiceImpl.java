@@ -173,4 +173,17 @@ public class MovieServiceImpl implements MovieService{
                 .toList();
     }
 
+
+
+//    public List<String> getAvailableSeats(Long movieId, LocalDateTime showtime) {
+//        Movie movie = movieRepo.findById(movieId)
+//                .orElseThrow(() -> new RuntimeException("Movie not found"));
+//
+//        List<String> bookedSeats = reservationRepository.findBookedSeats(movieId, showtime);
+//        List<String> allSeats = generateSeats(movie.getNumOfSeats());
+//        allSeats.removeAll(bookedSeats);
+//        return allSeats;
+//    }
+
+
 }
