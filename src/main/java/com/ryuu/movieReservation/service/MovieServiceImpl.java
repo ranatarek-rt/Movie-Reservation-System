@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -152,6 +153,14 @@ public class MovieServiceImpl implements MovieService{
         List<Movie> movies = movieRepo.findByGenresContaining(genre);
         return  movies
                 .stream()
+                .map((movie)->modelMapper.map(movie,MovieDto.class))
+                .toList();
+    }
+
+    @Override
+    public List<MovieDto> getMoviesByShowTime(LocalDateTime time) {
+        List<Movie> movies = movieRepo.findByShowTimesContaining(time);
+        return movies.stream()
                 .map((movie)->modelMapper.map(movie,MovieDto.class))
                 .toList();
     }

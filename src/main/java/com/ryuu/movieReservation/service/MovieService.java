@@ -6,6 +6,7 @@ import com.ryuu.movieReservation.dto.MovieUpdateDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MovieService {
@@ -19,4 +20,6 @@ public interface MovieService {
     MovieDto updateMovie(Long id, MovieUpdateDto movieUpdateDto);
 
     List<MovieDto> searchByGenre(String genre);
+
+    List<MovieDto> getMoviesByShowTime(LocalDateTime time);
 }

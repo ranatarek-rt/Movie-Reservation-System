@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -72,5 +73,12 @@ public class MovieController {
         return ResponseEntity.ok(new ApiResponse("fetched all movies under same genre",movies));
     }
 
+    @GetMapping("/showTimes")
+    public ResponseEntity<ApiResponse> getMoviesByShowTime(@RequestParam String showTime){
+        LocalDateTime parsedShowTime = LocalDateTime.parse(showTime);
+        List<MovieDto> movies = movieService.getMoviesByShowTime(parsedShowTime);
+        return ResponseEntity.ok(new ApiResponse("those are the movies at show time "+ parsedShowTime ,movies));
+
+    }
 
 }
