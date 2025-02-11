@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -64,6 +65,29 @@ public class MovieController {
     public ResponseEntity<ApiResponse> updateMovieFields(@PathVariable Long movieId, @RequestBody MovieUpdateDto movieUpdateDto){
         MovieDto updatedMovie = movieService.updateMovie(movieId,movieUpdateDto);
         return ResponseEntity.ok(new ApiResponse("the movie is successfully updated",updatedMovie));
+    }
+
+    @GetMapping("/search/{genre}")
+    public ResponseEntity<ApiResponse> searchByGenre(@PathVariable String genre){
+        List<MovieDto> movies = movieService.searchByGenre(genre);
+        return ResponseEntity.ok(new ApiResponse("fetched all movies under same genre",movies));
+    }
+
+    @GetMapping("/showTimes")
+    public ResponseEntity<ApiResponse> getMoviesByShowTime(@RequestParam String showTime){
+        LocalDateTime parsedShowTime = LocalDateTime.parse(showTime);
+        List<MovieDto> movies = movieService.getMoviesByShowTime(parsedShowTime);
+        return ResponseEntity.ok(new ApiResponse("those are the movies at show time "+ parsedShowTime ,movies));
+
+    }
+
+    @GetMapping("/showTimes/range")
+    public ResponseEntity<ApiResponse> getMoviesByShowTime(@RequestParam String showStart,@RequestParam String showEnd){
+        LocalDateTime parsedStartShowTime = LocalDateTime.parse(showStart);
+        LocalDateTime parsedEndShowTime = LocalDateTime.parse(showEnd);
+        List<MovieDto> movies = movieService.getMoviesByShowTimeRange(parsedStartShowTime,parsedEndShowTime);
+        return ResponseEntity.ok(new ApiResponse("those are the movies between " + parsedStartShowTime +" and "+ parsedEndShowTime ,movies));
+
     }
 
 }
