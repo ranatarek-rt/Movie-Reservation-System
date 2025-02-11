@@ -5,7 +5,7 @@ import com.ryuu.movieReservation.dto.MovieDto;
 import com.ryuu.movieReservation.dto.MovieRequestDto;
 import com.ryuu.movieReservation.dto.MovieUpdateDto;
 import com.ryuu.movieReservation.response.ApiResponse;
-import com.ryuu.movieReservation.service.MovieService;
+import com.ryuu.movieReservation.service.movie.MovieService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

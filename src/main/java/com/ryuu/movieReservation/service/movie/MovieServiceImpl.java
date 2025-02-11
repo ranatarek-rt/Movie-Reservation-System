@@ -1,4 +1,4 @@
-package com.ryuu.movieReservation.service;
+package com.ryuu.movieReservation.service.movie;
 
 
 import com.ryuu.movieReservation.dto.MovieDto;
