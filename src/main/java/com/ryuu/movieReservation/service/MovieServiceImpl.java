@@ -165,4 +165,12 @@ public class MovieServiceImpl implements MovieService{
                 .toList();
     }
 
+    @Override
+    public List<MovieDto> getMoviesByShowTimeRange(LocalDateTime startTime, LocalDateTime endTime) {
+        List<Movie> movies = movieRepo.findMoviesByShowTimeRange(startTime,endTime);
+        return movies.stream()
+                .map((movie)->modelMapper.map(movie,MovieDto.class))
+                .toList();
+    }
+
 }

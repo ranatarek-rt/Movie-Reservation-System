@@ -22,4 +22,6 @@ public interface MovieService {
     List<MovieDto> searchByGenre(String genre);
 
     List<MovieDto> getMoviesByShowTime(LocalDateTime time);
+
+    List<MovieDto> getMoviesByShowTimeRange(LocalDateTime startTime, LocalDateTime endTime);
 }

@@ -81,4 +81,13 @@ public class MovieController {
 
     }
 
+    @GetMapping("/showTimes/range")
+    public ResponseEntity<ApiResponse> getMoviesByShowTime(@RequestParam String showStart,@RequestParam String showEnd){
+        LocalDateTime parsedStartShowTime = LocalDateTime.parse(showStart);
+        LocalDateTime parsedEndShowTime = LocalDateTime.parse(showEnd);
+        List<MovieDto> movies = movieService.getMoviesByShowTimeRange(parsedStartShowTime,parsedEndShowTime);
+        return ResponseEntity.ok(new ApiResponse("those are the movies between " + parsedStartShowTime +" and "+ parsedEndShowTime ,movies));
+
+    }
+
 }
