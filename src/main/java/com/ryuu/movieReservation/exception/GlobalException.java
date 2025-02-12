@@ -19,4 +19,9 @@ public class GlobalException {
         return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(DuplicatedUserEntryException.class)
+    public ResponseEntity<ApiResponse> duplicatedUserExceptionHandler(DuplicatedUserEntryException ex){
+        return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.CONFLICT);
+    }
+
 }
