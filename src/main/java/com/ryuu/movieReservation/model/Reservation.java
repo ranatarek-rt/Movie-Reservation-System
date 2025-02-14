@@ -2,9 +2,18 @@ package com.ryuu.movieReservation.model;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="reservation")
 public class Reservation {
@@ -15,18 +24,18 @@ public class Reservation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id", nullable = false)
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "showtime_id", nullable = false)
     private Showtime showtime;
 
-    @Column(name="num_of_seats_booked")
-    private int numOfSeatsBooked;
+    @ElementCollection
+    @CollectionTable(name = "reservation_seats", joinColumns = @JoinColumn(name = "reservation_id"))
+    @Column(name = "seat_number")
+    private List<String> seatNumbers;  // Stores actual booked seat numbers
 
-    @Column(name="booking_date")
+    @Column(name="booking_date", nullable = false)
     private LocalDateTime bookingDate;
-
-
 }

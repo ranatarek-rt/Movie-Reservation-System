@@ -1,5 +1,6 @@
 package com.ryuu.movieReservation.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -20,10 +21,6 @@ public class MovieRequestDto {
     @NotBlank(message = "the movie title is required")
     @Size(max=100 , message = "the title can`t exceed 100 char")
     private String title;
-
-    @NotNull(message = "Number of seats must not be null")
-    @Min(value=1 , message = "the number of seats can not be zero or negative value")
-    private int numOfSeats;
 
     @NotBlank(message = "the release year is required")
     private Integer releaseYear;
@@ -46,7 +43,7 @@ public class MovieRequestDto {
 
     @NotNull(message = "Showtime cannot be null")
     @NotEmpty(message = "At least one showtime is required")
-    private List<LocalDateTime> showTimes;
+    private List<ShowtimeDto> showtime;
 
     private MultipartFile poster;
 

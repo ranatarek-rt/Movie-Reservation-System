@@ -4,9 +4,11 @@ package com.ryuu.movieReservation.service.movie;
 import com.ryuu.movieReservation.dto.MovieDto;
 import com.ryuu.movieReservation.dto.MovieRequestDto;
 import com.ryuu.movieReservation.dto.MovieUpdateDto;
+import com.ryuu.movieReservation.dto.ShowtimeDto;
 import com.ryuu.movieReservation.exception.DuplicatedMovieEntryException;
 import com.ryuu.movieReservation.exception.MovieNotFoundException;
 import com.ryuu.movieReservation.model.Movie;
+import com.ryuu.movieReservation.model.Showtime;
 import com.ryuu.movieReservation.repository.MovieRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieServiceImpl implements MovieService{
@@ -40,18 +43,34 @@ public class MovieServiceImpl implements MovieService{
     //this will be the responsibility for the admin to create a new movie
     @Override
     public MovieDto createMovie(MovieRequestDto movieRequestDto) {
-        if(movieRepo.findMovieByTitleAndReleaseYear(movieRequestDto.getTitle(),movieRequestDto.getReleaseYear()).isPresent()) {
-            throw new DuplicatedMovieEntryException("there is a movie exits with the same name and release year ");
+        if (movieRepo.findMovieByTitleAndReleaseYear(movieRequestDto.getTitle(), movieRequestDto.getReleaseYear()).isPresent()) {
+            throw new DuplicatedMovieEntryException("There is a movie with the same name and release year.");
         }
-        Movie movie = modelMapper.map(movieRequestDto,Movie.class);
+        Movie movie = modelMapper.map(movieRequestDto, Movie.class);
         if (movie.getPoster() == null || movie.getPoster().isEmpty()) {
             movie.setPoster("");
         }
+        if (movieRequestDto.getShowtime() != null && !movieRequestDto.getShowtime().isEmpty()) {
+            List<Showtime> showtimeList = showtimeList(movie, movieRequestDto.getShowtime());
+            movie.setShowtime(showtimeList);
+        }
         Movie finalMovie = movieRepo.save(movie);
-        return modelMapper.map(finalMovie,MovieDto.class);
+        return modelMapper.map(finalMovie, MovieDto.class);
     }
 
-    // upload poster to certain movie currently from static storage and can be changed to cloud or somethig else in the future
+    public List<Showtime> showtimeList(Movie movie, List<ShowtimeDto> showTimes) {
+       return showTimes.stream()
+                .map(showtimeDto -> {
+                    Showtime showtime = new Showtime();
+                    showtime.setShowTime(showtimeDto.getShowTime());
+                    showtime.setAvailableSeats(showtimeDto.getAvailableSeats());
+                    showtime.setMovie(movie);
+                    return showtime;
+                })
+                .collect(Collectors.toList());
+    }
+
+    // upload poster to certain movie currently from static storage and can be changed to cloud or something else in the future
     @Override
     public String uploadPoster(Long movieId, MultipartFile file) throws IOException {
         Movie movie = movieRepo.findById(movieId)
@@ -105,18 +124,15 @@ public class MovieServiceImpl implements MovieService{
         movieRepo.delete(movie);
     }
 
-    //patch update for the provided fields only
+    //patch update fields
     @Override
     public MovieDto updateMovie(Long id, MovieUpdateDto movieUpdateDto) {
         Movie movie = movieRepo
                 .findById(id)
                 .orElseThrow(() -> new MovieNotFoundException("There is no movie found with that ID"));
+
         if (movieUpdateDto.getTitle() != null) {
             movie.setTitle(movieUpdateDto.getTitle());
-        }
-
-        if (movieUpdateDto.getNumOfSeats() > 0) {
-            movie.setNumOfSeats(movieUpdateDto.getNumOfSeats());
         }
 
         if (movieUpdateDto.getReleaseYear() != null) {
@@ -139,13 +155,17 @@ public class MovieServiceImpl implements MovieService{
             movie.setDirectors(movieUpdateDto.getDirectors());
         }
 
-        if (movieUpdateDto.getShowTimes() != null && !movieUpdateDto.getShowTimes().isEmpty()) {
-            movie.setShowTimes(movieUpdateDto.getShowTimes());
+        if (movieUpdateDto.getShowtime() != null && !movieUpdateDto.getShowtime().isEmpty()) {
+            movie.getShowtime().clear();
+            List<Showtime> newShowtimesList = showtimeList(movie, movieUpdateDto.getShowtime());
+            movie.getShowtime().addAll(newShowtimesList);
         }
 
         Movie updatedMovie = movieRepo.save(movie);
-        return modelMapper.map(updatedMovie,MovieDto.class);
+        return modelMapper.map(updatedMovie, MovieDto.class);
     }
+
+
 
 
     @Override
@@ -158,31 +178,19 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public List<MovieDto> getMoviesByShowTime(LocalDateTime time) {
-        List<Movie> movies = movieRepo.findByShowTimesContaining(time);
+    public List<MovieDto> getMoviesByShowTime(List<Showtime> showtime) {
+        List<Movie> movies = movieRepo.findByShowtimeContaining(showtime);
         return movies.stream()
                 .map((movie)->modelMapper.map(movie,MovieDto.class))
                 .toList();
     }
 
-    @Override
-    public List<MovieDto> getMoviesByShowTimeRange(LocalDateTime startTime, LocalDateTime endTime) {
-        List<Movie> movies = movieRepo.findMoviesByShowTimeRange(startTime,endTime);
-        return movies.stream()
-                .map((movie)->modelMapper.map(movie,MovieDto.class))
-                .toList();
-    }
-
-
-
-//    public List<String> getAvailableSeats(Long movieId, LocalDateTime showtime) {
-//        Movie movie = movieRepo.findById(movieId)
-//                .orElseThrow(() -> new RuntimeException("Movie not found"));
-//
-//        List<String> bookedSeats = reservationRepository.findBookedSeats(movieId, showtime);
-//        List<String> allSeats = generateSeats(movie.getNumOfSeats());
-//        allSeats.removeAll(bookedSeats);
-//        return allSeats;
+//    @Override
+//    public List<MovieDto> getMoviesByShowTimeRange(LocalDateTime startTime, LocalDateTime endTime) {
+//        List<Movie> movies = movieRepo.findMoviesByShowtimeBetween(startTime,endTime);
+//        return movies.stream()
+//                .map((movie)->modelMapper.map(movie,MovieDto.class))
+//                .toList();
 //    }
 
 
