@@ -31,10 +31,8 @@ public class Reservation {
     @JoinColumn(name = "showtime_id", nullable = false)
     private Showtime showtime;
 
-    @ElementCollection
-    @CollectionTable(name = "reservation_seats", joinColumns = @JoinColumn(name = "reservation_id"))
-    @Column(name = "seat_number")
-    private List<String> seatNumbers;  // Stores actual booked seat numbers
+    @Column(name="num_of_seats_booked")
+    private int numOfSeatsBooked;
 
     @Column(name="booking_date", nullable = false)
     private LocalDateTime bookingDate;

@@ -1,10 +1,8 @@
 package com.ryuu.movieReservation.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 @Setter

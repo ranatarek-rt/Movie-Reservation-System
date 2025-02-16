@@ -23,5 +23,9 @@ public class GlobalException {
     public ResponseEntity<ApiResponse> duplicatedUserExceptionHandler(DuplicatedUserEntryException ex){
         return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.CONFLICT);
     }
+    @ExceptionHandler(ShowtimeNotFoundException.class)
+    public ResponseEntity<ApiResponse> showtimeNotfoundExceptionHandler(ShowtimeNotFoundException ex){
+        return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.CONFLICT);
+    }
 
 }

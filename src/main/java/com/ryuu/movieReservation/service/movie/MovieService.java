@@ -7,6 +7,7 @@ import com.ryuu.movieReservation.model.Showtime;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,7 +23,5 @@ public interface MovieService {
 
     List<MovieDto> searchByGenre(String genre);
 
-    List<MovieDto> getMoviesByShowTime(List<Showtime> showtime);
-
-//    List<MovieDto> getMoviesByShowTimeRange(LocalDateTime startTime, LocalDateTime endTime);
+    List<MovieDto> getMoviesByDate(LocalDate date);
 }

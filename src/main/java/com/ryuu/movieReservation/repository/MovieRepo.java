@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,7 @@ public interface MovieRepo extends JpaRepository<Movie,Long> {
 
     List<Movie> findByGenresContaining(String genre);
 
-    List<Movie> findByShowtimeContaining(List<Showtime> showtime);
-
-//    @Query("SELECT m FROM Movie m JOIN m.showtime s WHERE :startTime <= s.showtime AND :endTime >= s.showtime")
-//    List<Movie> findMoviesByShowtimeBetween(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
-
+    @Query("SELECT DISTINCT m FROM Movie m JOIN m.showtime s WHERE DATE(s.showTime) = :date")
+    List<Movie> findMoviesByShowDate(@Param("date") LocalDate date);
 
 }

@@ -1,6 +1,5 @@
 package com.ryuu.movieReservation.service.movie;
 
-
 import com.ryuu.movieReservation.dto.MovieDto;
 import com.ryuu.movieReservation.dto.MovieRequestDto;
 import com.ryuu.movieReservation.dto.MovieUpdateDto;
@@ -14,13 +13,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -167,7 +165,6 @@ public class MovieServiceImpl implements MovieService{
 
 
 
-
     @Override
     public List<MovieDto> searchByGenre(String genre){
         List<Movie> movies = movieRepo.findByGenresContaining(genre);
@@ -178,20 +175,18 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public List<MovieDto> getMoviesByShowTime(List<Showtime> showtime) {
-        List<Movie> movies = movieRepo.findByShowtimeContaining(showtime);
-        return movies.stream()
-                .map((movie)->modelMapper.map(movie,MovieDto.class))
-                .toList();
+    public List<MovieDto> getMoviesByDate(LocalDate date) {
+       List<Movie> movies = movieRepo.findMoviesByShowDate(date);
+        for (Movie movie : movies) {
+            List<Showtime> filteredShowTimes = movie.getShowtime().stream()
+                    .filter(showtime -> showtime.getShowTime().toLocalDate().equals(date))
+                    .collect(Collectors.toList());
+            movie.setShowtime(filteredShowTimes);
+        }
+       return movies
+               .stream()
+               .map((movie)->modelMapper.map(movie,MovieDto.class))
+               .toList();
     }
-
-//    @Override
-//    public List<MovieDto> getMoviesByShowTimeRange(LocalDateTime startTime, LocalDateTime endTime) {
-//        List<Movie> movies = movieRepo.findMoviesByShowtimeBetween(startTime,endTime);
-//        return movies.stream()
-//                .map((movie)->modelMapper.map(movie,MovieDto.class))
-//                .toList();
-//    }
-
 
 }

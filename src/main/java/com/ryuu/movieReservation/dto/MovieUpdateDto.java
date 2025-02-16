@@ -3,7 +3,6 @@ package com.ryuu.movieReservation.dto;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Setter

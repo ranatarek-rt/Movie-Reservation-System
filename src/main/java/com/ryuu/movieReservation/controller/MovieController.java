@@ -4,18 +4,17 @@ package com.ryuu.movieReservation.controller;
 import com.ryuu.movieReservation.dto.MovieDto;
 import com.ryuu.movieReservation.dto.MovieRequestDto;
 import com.ryuu.movieReservation.dto.MovieUpdateDto;
-import com.ryuu.movieReservation.model.Showtime;
 import com.ryuu.movieReservation.response.ApiResponse;
 import com.ryuu.movieReservation.service.movie.MovieService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -73,22 +72,12 @@ public class MovieController {
         List<MovieDto> movies = movieService.searchByGenre(genre);
         return ResponseEntity.ok(new ApiResponse("fetched all movies under same genre",movies));
     }
-//
-//    @GetMapping("/showTimes")
-//    public ResponseEntity<ApiResponse> getMoviesByShowTime(@RequestParam List<Showtime> showtime){
-//        LocalDateTime parsedShowTime = LocalDateTime.parse(showTime);
-//        List<MovieDto> movies = movieService.getMoviesByShowTime(parsedShowTime);
-//        return ResponseEntity.ok(new ApiResponse("those are the movies at show time "+ parsedShowTime ,movies));
-//
-//    }
 
-//    @GetMapping("/showTimes/range")
-//    public ResponseEntity<ApiResponse> getMoviesByShowTime(@RequestParam String showStart,@RequestParam String showEnd){
-//        LocalDateTime parsedStartShowTime = LocalDateTime.parse(showStart);
-//        LocalDateTime parsedEndShowTime = LocalDateTime.parse(showEnd);
-//        List<MovieDto> movies = movieService.getMoviesByShowTimeRange(parsedStartShowTime,parsedEndShowTime);
-//        return ResponseEntity.ok(new ApiResponse("those are the movies between " + parsedStartShowTime +" and "+ parsedEndShowTime ,movies));
-//
-//    }
 
+    @GetMapping("/by-date")
+    public ResponseEntity<ApiResponse> getMoviesByDate(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        List<MovieDto> movies = movieService.getMoviesByDate(date);
+        return ResponseEntity.ok(new ApiResponse("fetched all movies under the required date "+ date,movies));
+    }
 }
