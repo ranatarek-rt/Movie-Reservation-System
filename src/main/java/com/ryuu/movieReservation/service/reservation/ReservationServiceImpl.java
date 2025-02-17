@@ -1,6 +1,7 @@
 package com.ryuu.movieReservation.service.reservation;
 
 import com.ryuu.movieReservation.dto.ReservationDto;
+import com.ryuu.movieReservation.dto.UserReservationResponseDto;
 import com.ryuu.movieReservation.exception.NoEnoughSeatsException;
 import com.ryuu.movieReservation.exception.ShowtimeNotFoundException;
 import com.ryuu.movieReservation.exception.UserNotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ReservationServiceImpl implements ReservationService{
@@ -53,6 +55,20 @@ public class ReservationServiceImpl implements ReservationService{
         return modelMapper.map(reservation,ReservationDto.class);
     }
 
+
+
+    @Override
+    public List<UserReservationResponseDto> getUserReservations(Long userId){
+        User user  = userRepo
+                .findById(userId)
+                .orElseThrow(()->new UserNotFoundException("there is no user found with that Id"));
+
+        List<Reservation> reservations = reservationRepo.findReservationsByUser(user);
+        return reservations
+                .stream()
+                .map(reservation-> modelMapper.map(reservation,UserReservationResponseDto.class))
+                .toList();
+    }
 
 
 
