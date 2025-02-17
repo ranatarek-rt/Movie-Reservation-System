@@ -27,5 +27,13 @@ public class GlobalException {
     public ResponseEntity<ApiResponse> showtimeNotfoundExceptionHandler(ShowtimeNotFoundException ex){
         return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.CONFLICT);
     }
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiResponse> userNotFoundExceptionHandler(UserNotFoundException ex){
+        return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(NoEnoughSeatsException.class)
+    public ResponseEntity<ApiResponse> noEnoughSeatsExceptionHandler(NoEnoughSeatsException ex){
+        return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.CONFLICT);
+    }
 
 }

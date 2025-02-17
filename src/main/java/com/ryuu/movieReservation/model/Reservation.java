@@ -1,6 +1,7 @@
 package com.ryuu.movieReservation.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,10 +26,12 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "showtime_id", nullable = false)
+    @JsonIgnore
     private Showtime showtime;
 
     @Column(name="num_of_seats_booked")

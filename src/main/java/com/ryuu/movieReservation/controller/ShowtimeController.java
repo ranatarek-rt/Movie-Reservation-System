@@ -3,7 +3,6 @@ package com.ryuu.movieReservation.controller;
 import com.ryuu.movieReservation.dto.ShowtimeRequestDto;
 import com.ryuu.movieReservation.response.ApiResponse;
 import com.ryuu.movieReservation.service.showtime.ShowtimeService;
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
