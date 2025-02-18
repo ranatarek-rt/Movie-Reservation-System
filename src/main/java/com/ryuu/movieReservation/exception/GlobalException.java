@@ -36,4 +36,22 @@ public class GlobalException {
         return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.BAD_REQUEST);
     }
 
+
+    @ExceptionHandler(ReservationNotFoundException.class)
+    public ResponseEntity<ApiResponse> reservationNotFoundExceptionHandler(ReservationNotFoundException ex){
+        return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ApiResponse> unauthorizedExceptionHandler(UnauthorizedException ex){
+        return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.UNAUTHORIZED);
+    }
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiResponse> illegalStateExceptionHandler(IllegalStateException ex){
+        return new ResponseEntity<>(new ApiResponse(ex.getMessage() , null), HttpStatus.BAD_REQUEST);
+    }
+
+
+
 }

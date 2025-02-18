@@ -30,11 +30,24 @@ public class ReservationController {
         return ResponseEntity.ok(new ApiResponse("the user reserved seats successfully", reservation));
     }
 
+    @GetMapping
+    public ResponseEntity<ApiResponse> getAllReservations(){
+        List<ReservationDto> reservations = reservationService.getAllReservations();
+        return ResponseEntity.ok(new ApiResponse("All reservations list", reservations));
+
+    }
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<ApiResponse> getUserReservations(@PathVariable Long userId){
         List<UserReservationResponseDto> reservations = reservationService.getUserReservations(userId);
         return ResponseEntity.ok(new ApiResponse("The user reservations list is fetched successfully", reservations));
     }
 
+    @DeleteMapping("/user/cancel")
+    public ResponseEntity<ApiResponse> cancelUserReservation(@RequestParam Long userId , @RequestParam Long reservationId){
+        reservationService.cancelReservation(userId,reservationId);
+        return ResponseEntity.ok(new ApiResponse("The reservation is canceled successfully", null));
+
+    }
 
 }

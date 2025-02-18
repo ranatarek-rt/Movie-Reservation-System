@@ -2,15 +2,15 @@ package com.ryuu.movieReservation.service.reservation;
 
 import com.ryuu.movieReservation.dto.ReservationDto;
 import com.ryuu.movieReservation.dto.UserReservationResponseDto;
-import com.ryuu.movieReservation.exception.NoEnoughSeatsException;
-import com.ryuu.movieReservation.exception.ShowtimeNotFoundException;
-import com.ryuu.movieReservation.exception.UserNotFoundException;
+import com.ryuu.movieReservation.exception.*;
+import com.ryuu.movieReservation.exception.IllegalStateException;
 import com.ryuu.movieReservation.model.Reservation;
 import com.ryuu.movieReservation.model.Showtime;
 import com.ryuu.movieReservation.model.User;
 import com.ryuu.movieReservation.repository.ReservationRepo;
 import com.ryuu.movieReservation.repository.ShowtimeRepo;
 import com.ryuu.movieReservation.repository.UserRepo;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +55,14 @@ public class ReservationServiceImpl implements ReservationService{
         return modelMapper.map(reservation,ReservationDto.class);
     }
 
+    @Override
+    public List<ReservationDto> getAllReservations(){
+        List<Reservation> reservations = reservationRepo.findAll();
+        return reservations
+                .stream()
+                .map(reservation -> modelMapper.map(reservation,ReservationDto.class))
+                .toList();
+    }
 
 
     @Override
@@ -68,6 +76,25 @@ public class ReservationServiceImpl implements ReservationService{
                 .stream()
                 .map(reservation-> modelMapper.map(reservation,UserReservationResponseDto.class))
                 .toList();
+    }
+
+    @Transactional
+    @Override
+    public void cancelReservation(Long userId, Long reservationId) {
+        Reservation reservation = reservationRepo.findById(reservationId)
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation not found"));
+
+        if (!reservation.getUser().getId().equals(userId)) {
+            throw new UnauthorizedException("You can only cancel your own reservations.");
+        }
+
+        if (reservation.getShowtime().getShowTime().isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("You can only cancel upcoming reservations.");
+        }
+
+        Showtime showtime = reservation.getShowtime();
+        showtime.setAvailableSeats(showtime.getAvailableSeats() + reservation.getNumOfSeatsBooked());
+        reservationRepo.delete(reservation);
     }
 
 
