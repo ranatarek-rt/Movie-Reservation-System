@@ -1,48 +1,44 @@
-DROP DATABASE IF exists movie_reservation;
-
+DROP DATABASE IF EXISTS movie_reservation;
 CREATE DATABASE movie_reservation;
-
 USE movie_reservation;
 
-CREATE TABLE movie(
-   `id` BIGINT not null AUTO_INCREMENT,
-   `title` varchar(100),
-   `description` TEXT,
-   `poster` LONGBLOB,
-   `num_of_seats` int not null,
-   PRIMARY KEY (id)
+CREATE TABLE movie (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(100) NOT NULL,
+    description TEXT,
+    poster VARCHAR(255),
+    release_year INT NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (title, release_year)
 );
 
 CREATE TABLE movie_genres (
-    `movie_id` BIGINT NOT NULL ,
-    `genre` varchar(100),
-    FOREIGN KEY (movie_id) references movie(id) ON DELETE CASCADE
-
+    movie_id BIGINT NOT NULL,
+    genre VARCHAR(100) NOT NULL,
+    PRIMARY KEY (movie_id, genre),
+    FOREIGN KEY (movie_id) REFERENCES movie(id) ON DELETE CASCADE
 );
 
-CREATE TABLE movie_cast(
-    `movie_id` BIGINT NOT NULL,
-    `cast` varchar(100),
-    FOREIGN KEY (movie_id) references movie(id) ON DELETE CASCADE
-
+CREATE TABLE movie_cast (
+    movie_id BIGINT NOT NULL,
+    cast_name VARCHAR(100) NOT NULL,
+    PRIMARY KEY (movie_id, cast_name),
+    FOREIGN KEY (movie_id) REFERENCES movie(id) ON DELETE CASCADE
 );
 
-CREATE TABLE movie_directors(
-    `movie_id` BIGINT NOT NULL,
-    `director` varchar(100),
-    FOREIGN KEY (movie_id) references movie(id) ON DELETE CASCADE
+CREATE TABLE movie_directors (
+    movie_id BIGINT NOT NULL,
+    director_name VARCHAR(100) NOT NULL,
+    PRIMARY KEY (movie_id, director_name),
+    FOREIGN KEY (movie_id) REFERENCES movie(id) ON DELETE CASCADE
 );
 
-CREATE TABLE movie_showtimes(
-    `movie_id` BIGINT NOT NULL,
-    `showtime` varchar(100),
-    FOREIGN KEY (movie_id) references movie(id) ON DELETE CASCADE
+CREATE TABLE showtime (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    movie_id BIGINT NOT NULL,
+    show_time DATETIME NOT NULL,
+    available_seats INT NOT NULL,
+    seat_price DECIMAL(19,2),
+    PRIMARY KEY (id),
+    FOREIGN KEY (movie_id) REFERENCES movie(id) ON DELETE CASCADE
 );
-
-
-
-
-
-
-
-
