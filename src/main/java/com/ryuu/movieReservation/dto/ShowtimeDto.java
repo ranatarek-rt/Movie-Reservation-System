@@ -1,6 +1,7 @@
 package com.ryuu.movieReservation.dto;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,4 +12,5 @@ import java.time.LocalDateTime;
 public class ShowtimeDto {
     private LocalDateTime showTime;
     private int availableSeats;
+    private BigDecimal seatPrice;
 }

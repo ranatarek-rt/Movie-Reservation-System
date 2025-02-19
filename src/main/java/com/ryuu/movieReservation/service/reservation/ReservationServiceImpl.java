@@ -1,6 +1,7 @@
 package com.ryuu.movieReservation.service.reservation;
 
 import com.ryuu.movieReservation.dto.ReservationDto;
+import com.ryuu.movieReservation.dto.RevenueDto;
 import com.ryuu.movieReservation.dto.UserReservationResponseDto;
 import com.ryuu.movieReservation.exception.*;
 import com.ryuu.movieReservation.exception.IllegalStateException;
@@ -15,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class ReservationServiceImpl implements ReservationService{
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     @Override
     public ReservationDto reserveSeats(Long showtimeId, int numOfSeats, Long userId) {
         Showtime showtime = showtimeRepo.findById(showtimeId)
@@ -43,11 +46,14 @@ public class ReservationServiceImpl implements ReservationService{
             throw new NoEnoughSeatsException("Not enough available seats!");
         }
 
+        BigDecimal totalPrice = BigDecimal.valueOf(numOfSeats).multiply(showtime.getSeatPrice());
+
         Reservation reservation = new Reservation();
         reservation.setShowtime(showtime);
         reservation.setUser(user);
         reservation.setNumOfSeatsBooked(numOfSeats);
         reservation.setBookingDate(LocalDateTime.now());
+        reservation.setTotal_price(totalPrice);
         reservationRepo.save(reservation);
         showtime.setAvailableSeats(showtime.getAvailableSeats() - numOfSeats);
         showtimeRepo.save(showtime);
@@ -97,6 +103,17 @@ public class ReservationServiceImpl implements ReservationService{
         reservationRepo.delete(reservation);
     }
 
+    @Override
+    public RevenueDto getRevenue(){
+
+        List<Reservation> reservations = reservationRepo.findAll();
+
+        BigDecimal totalRevenue = reservations.stream()
+                .map(Reservation::getTotal_price)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new RevenueDto(totalRevenue);
+    }
 
 
 

@@ -62,6 +62,7 @@ public class MovieServiceImpl implements MovieService{
                     Showtime showtime = new Showtime();
                     showtime.setShowTime(showtimeDto.getShowTime());
                     showtime.setAvailableSeats(showtimeDto.getAvailableSeats());
+                    showtime.setSeatPrice(showtimeDto.getSeatPrice());
                     showtime.setMovie(movie);
                     return showtime;
                 })

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class Reservation {
     private int numOfSeatsBooked;
 
     @Column(name="total_price")
-    private double total_price;
+    private BigDecimal total_price;
 
     @Column(name="booking_date", nullable = false)
     private LocalDateTime bookingDate;
