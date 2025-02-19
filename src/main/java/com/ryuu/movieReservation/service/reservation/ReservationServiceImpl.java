@@ -1,5 +1,6 @@
 package com.ryuu.movieReservation.service.reservation;
 
+import com.ryuu.movieReservation.dto.AdminDetailsDto;
 import com.ryuu.movieReservation.dto.ReservationDto;
 import com.ryuu.movieReservation.dto.RevenueDto;
 import com.ryuu.movieReservation.dto.UserReservationResponseDto;
@@ -116,13 +117,29 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
 
+    @Override
+    public AdminDetailsDto getAllDetails(){
+        List<Reservation> reservations  = reservationRepo.findAll();
+        List<Showtime> showtimeList = showtimeRepo.findAll();
+
+        int totalCap = showtimeList
+                .stream()
+                .mapToInt(showtime->showtime.getAvailableSeats() + showtime.getReservations().stream()
+                .mapToInt(Reservation::getNumOfSeatsBooked).sum())
+                .sum();
+
+        int remainingCapacity = showtimeList
+                .stream()
+                .mapToInt(Showtime::getAvailableSeats)
+                .sum();
 
 
+        BigDecimal totalRevenue = reservations.stream()
+                .map(Reservation::getTotal_price)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-
-
-
-
+        return new AdminDetailsDto(totalCap,remainingCapacity,totalRevenue);
+    }
 
 
 

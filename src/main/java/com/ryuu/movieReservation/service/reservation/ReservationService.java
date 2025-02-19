@@ -1,5 +1,6 @@
 package com.ryuu.movieReservation.service.reservation;
 
+import com.ryuu.movieReservation.dto.AdminDetailsDto;
 import com.ryuu.movieReservation.dto.ReservationDto;
 import com.ryuu.movieReservation.dto.RevenueDto;
 import com.ryuu.movieReservation.dto.UserReservationResponseDto;
@@ -18,4 +19,6 @@ public interface ReservationService {
     void cancelReservation(Long userId, Long reservationId);
 
     RevenueDto getRevenue();
+
+    AdminDetailsDto getAllDetails();
 }

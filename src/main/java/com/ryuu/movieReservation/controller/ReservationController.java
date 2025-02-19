@@ -1,4 +1,5 @@
 package com.ryuu.movieReservation.controller;
+import com.ryuu.movieReservation.dto.AdminDetailsDto;
 import com.ryuu.movieReservation.dto.ReservationDto;
 import com.ryuu.movieReservation.dto.RevenueDto;
 import com.ryuu.movieReservation.dto.UserReservationResponseDto;
@@ -53,6 +54,13 @@ public class ReservationController {
     public ResponseEntity<ApiResponse> totalRevenue(){
         RevenueDto revenueDto = reservationService.getRevenue();
         return ResponseEntity.ok(new ApiResponse("The Total Revenue", revenueDto));
+
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<ApiResponse> allDetails(){
+        AdminDetailsDto adminDetailsDto = reservationService.getAllDetails();
+        return ResponseEntity.ok(new ApiResponse("All needed details for admins", adminDetailsDto));
 
     }
 
