@@ -37,6 +37,9 @@ public class Reservation {
     @Column(name="num_of_seats_booked")
     private int numOfSeatsBooked;
 
+    @Column(name="total_price")
+    private double total_price;
+
     @Column(name="booking_date", nullable = false)
     private LocalDateTime bookingDate;
 }

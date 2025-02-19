@@ -35,6 +35,10 @@ public class Showtime {
     @Column(name="available_seats")
     private int availableSeats;
 
+
+    @Column(name="seat_price")
+    private double seatPrice;
+
     @OneToMany(mappedBy = "showtime", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Reservation> reservations;

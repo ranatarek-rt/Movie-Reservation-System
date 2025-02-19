@@ -38,6 +38,7 @@ CREATE TABLE showtime (
     movie_id BIGINT NOT NULL,
     show_time DATETIME NOT NULL,
     available_seats INT NOT NULL,
+    seatPrice DECIMAL(19,2),
     PRIMARY KEY (id),
     FOREIGN KEY (movie_id) REFERENCES movie(id) ON DELETE CASCADE
 );
