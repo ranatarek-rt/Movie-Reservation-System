@@ -21,6 +21,7 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
+    // user
     @PostMapping
     public ResponseEntity<ApiResponse> reserveSeats(
             @RequestParam Long showtimeId , @RequestParam int numOfSeats , @RequestParam Long userId){
@@ -30,6 +31,7 @@ public class ReservationController {
         return ResponseEntity.ok(new ApiResponse("the user reserved seats successfully", reservation));
     }
 
+    // admin
     @GetMapping
     public ResponseEntity<ApiResponse> getAllReservations(){
         List<ReservationDto> reservations = reservationService.getAllReservations();
@@ -37,12 +39,13 @@ public class ReservationController {
 
     }
 
+    // admin, user
     @GetMapping("/user/{userId}")
     public ResponseEntity<ApiResponse> getUserReservations(@PathVariable Long userId){
         List<UserReservationResponseDto> reservations = reservationService.getUserReservations(userId);
         return ResponseEntity.ok(new ApiResponse("The user reservations list is fetched successfully", reservations));
     }
-
+    //user
     @DeleteMapping("/user/cancel")
     public ResponseEntity<ApiResponse> cancelUserReservation(@RequestParam Long userId , @RequestParam Long reservationId){
         reservationService.cancelReservation(userId,reservationId);
@@ -50,6 +53,7 @@ public class ReservationController {
 
     }
 
+    // admin
     @GetMapping("/total/revenue")
     public ResponseEntity<ApiResponse> totalRevenue(){
         RevenueDto revenueDto = reservationService.getRevenue();
@@ -57,6 +61,7 @@ public class ReservationController {
 
     }
 
+    //admin
     @GetMapping("/details")
     public ResponseEntity<ApiResponse> allDetails(){
         AdminDetailsDto adminDetailsDto = reservationService.getAllDetails();

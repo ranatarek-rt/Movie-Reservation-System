@@ -30,12 +30,14 @@ public class MovieController {
     }
 
 
+    //admin
     @PostMapping
     public ResponseEntity<ApiResponse> createMovie(@Valid @RequestBody MovieRequestDto movieRequestDto){
         MovieDto movie = movieService.createMovie(movieRequestDto);
         return ResponseEntity.ok(new ApiResponse("the movie is created successfully",movie));
     }
 
+    //admin
     @PostMapping("/{movieId}/poster")
     public ResponseEntity<ApiResponse> uploadMoviePoster(@PathVariable Long movieId, @RequestParam("file") MultipartFile file) throws IOException {
         String posterUrl = movieService.uploadPoster(movieId, file);
@@ -43,37 +45,42 @@ public class MovieController {
         return ResponseEntity.ok(new ApiResponse("Poster uploaded successfully", posterUrl));
     }
 
+    //all allowed
     @GetMapping
     public ResponseEntity<ApiResponse> getAllMovies(){
         List<MovieDto> movies = movieService.getAllMovies();
         return ResponseEntity.ok(new ApiResponse("All movies are fetched successfully ",movies));
     }
 
+    //all allowed
     @GetMapping("{movieId}")
     public ResponseEntity<ApiResponse> getMovieById(@PathVariable Long movieId){
         MovieDto movie = movieService.getMovieById(movieId);
         return ResponseEntity.ok(new ApiResponse("the movie with id "+ movieId +" is fetched successfully",movie));
     }
 
+    //admin
     @DeleteMapping("{movieId}")
     public ResponseEntity<ApiResponse> deleteMovie(@PathVariable Long movieId){
         movieService.deleteMovieById(movieId);
         return ResponseEntity.ok(new ApiResponse("the movie is deleted successfully",null));
     }
 
+    //admin
     @PatchMapping("{movieId}/update")
     public ResponseEntity<ApiResponse> updateMovieFields(@PathVariable Long movieId, @RequestBody MovieUpdateDto movieUpdateDto){
         MovieDto updatedMovie = movieService.updateMovie(movieId,movieUpdateDto);
         return ResponseEntity.ok(new ApiResponse("the movie is successfully updated",updatedMovie));
     }
 
+    //all allowed
     @GetMapping("/search/{genre}")
     public ResponseEntity<ApiResponse> searchByGenre(@PathVariable String genre){
         List<MovieDto> movies = movieService.searchByGenre(genre);
         return ResponseEntity.ok(new ApiResponse("fetched all movies under same genre",movies));
     }
 
-
+    //all allowed
     @GetMapping("/by-date")
     public ResponseEntity<ApiResponse> getMoviesByDate(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {

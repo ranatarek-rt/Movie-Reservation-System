@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
+//all allowed
 @RequestMapping("/api/showtime")
 public class ShowtimeController {
 
