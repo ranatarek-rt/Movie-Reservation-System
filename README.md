@@ -31,5 +31,6 @@ This is a **Spring Boot** application that provides RESTFull APIs for a movie bo
 ###  Postman Collection
 [Postman Collection Download](MovieReservationSystem.postman_collection.json)
 
-
+### Project URL
+https://github.com/ranatarek-rt/Movie-Reservation-System.git
 
