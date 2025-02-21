@@ -1,0 +1,349 @@
+{
+	"info": {
+		"_postman_id": "af442173-80b3-4d15-8828-1b4324aa532e",
+		"name": "Movie Reservation System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30280541"
+	},
+	"item": [
+		{
+			"name": "movie",
+			"item": [
+				{
+					"name": "Create movie",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n    \"title\": \"Interstellar\",\r\n    \"description\": \"A journey beyond the stars to save humanity.\",\r\n    \"releaseYear\": 2026,\r\n    \"genres\": [\"Sci-Fi\", \"Adventure\"],\r\n    \"castList\": [\"Matthew McConaughey\", \"Anne Hathaway\", \"Jessica Chastain\"],\r\n    \"directors\": [\"Christopher Nolan\"],\r\n    \"showtime\": [\r\n      {\r\n        \"showTime\": \"2025-02-20T19:00:00\",\r\n        \"availableSeats\": 220,\r\n        \"seatPrice\": 120\r\n      },\r\n      {\r\n        \"showTime\": \"2025-02-21T21:00:00\",\r\n        \"availableSeats\": 190,\r\n         \"seatPrice\": 110\r\n      },\r\n      {\r\n        \"showTime\": \"2025-02-22T23:00:00\",\r\n        \"availableSeats\": 160,\r\n         \"seatPrice\": 100\r\n      }\r\n    ]\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/movie"
+					},
+					"response": []
+				},
+				{
+					"name": "upload image for movie",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/F:/java projects/movieReservation/src/main/resources/static/uploads/panther.jpeg"
+								}
+							]
+						},
+						"url": "http://localhost:8080/api/movie/2/poster"
+					},
+					"response": []
+				},
+				{
+					"name": "fetch uploaded image",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "rana18",
+								"username": "ranatarek@gmail.com"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/images/aa937257-8fa9-452f-a213-2cb022cb10f9_star_wars.jpg"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all movies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/movie"
+					},
+					"response": []
+				},
+				{
+					"name": "get movie by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/movie/2"
+					},
+					"response": []
+				},
+				{
+					"name": "delete movie by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/api/movie/1"
+					},
+					"response": []
+				},
+				{
+					"name": "update movie",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "rana18",
+								"username": "ranatarek@gmail.com"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n    \"title\": \"Interstellar updated\",\r\n    \"showtime\": [\r\n      {\r\n        \"showTime\": \"2025-02-22T23:00:00\",\r\n        \"availableSeats\": 160\r\n      }\r\n    ]\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/movie/3/update"
+					},
+					"response": []
+				},
+				{
+					"name": "search by genre",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/movie/search/Adventure"
+					},
+					"response": []
+				},
+				{
+					"name": "filter movies by date",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "date",
+									"value": "2025-02-20",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:8080/api/movie/by-date"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"samirAli@gmail.com\",\r\n    \"password\":\"samer99\",\r\n    \"role\":\"USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "showtime",
+			"item": [
+				{
+					"name": "all showtimes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/showtime"
+					},
+					"response": []
+				},
+				{
+					"name": "showtime by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/showtime/4"
+					},
+					"response": []
+				},
+				{
+					"name": "available seats in showtime",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/showtime/4/seats"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reservation",
+			"item": [
+				{
+					"name": "make a reservation",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "jad237",
+								"username": "mohamedTarek@gmail.com"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "showtimeId",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "numOfSeats",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:8080/api/reserve"
+					},
+					"response": []
+				},
+				{
+					"name": "get user reservations",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "rana18",
+								"username": "ranatarek@gmail.com"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/reserve/user/2"
+					},
+					"response": []
+				},
+				{
+					"name": "All reservations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/reserve"
+					},
+					"response": []
+				},
+				{
+					"name": "cancel reservation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userId",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "reservationId",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:8080/api/reserve/user/cancel"
+					},
+					"response": []
+				},
+				{
+					"name": "total revenue",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "rana18",
+								"username": "ranatarek@gmail.com"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/reserve/total/revenue"
+					},
+					"response": []
+				},
+				{
+					"name": "all details",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "rana18",
+								"username": "ranatarek@gmail.com"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/reserve/details"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
