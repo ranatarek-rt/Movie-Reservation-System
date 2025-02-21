@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 
-@Controller
+@RestController
 @RequestMapping("/api/movie")
 public class MovieController {
 
